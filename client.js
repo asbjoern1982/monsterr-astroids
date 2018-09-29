@@ -1,12 +1,12 @@
 import createClient from 'monsterr'
-import stage1 from './src/stages/stage1/client'
+import astroids from './src/stages/astroids/client/client'
 
 const stages = [
-  stage1
+  astroids
 ]
 
 let options = {
-  canvasBackgroundColor: 'blue',
+  canvasBackgroundColor: 'black',
   htmlContainerHeight: 0 // Hide html
 }
 

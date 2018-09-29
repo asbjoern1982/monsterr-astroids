@@ -1,13 +1,17 @@
-import createServer, { Network } from 'monsterr'
-import stage1 from './src/stages/stage1/server'
+import createServer, { Network, Events } from 'monsterr'
+import astroids from './src/stages/astroids/server/server'
 
-const stages = [stage1]
+const stages = [astroids]
 
-let events = {}
+let events = {
+  [Events.CLIENT_CONNECTED] (server, clientId) {
+    server.start()
+  }
+}
 let commands = {}
 
 const monsterr = createServer({
-  network: Network.pairs(8),
+  network: Network.clique(8),
   events,
   commands,
   stages,
