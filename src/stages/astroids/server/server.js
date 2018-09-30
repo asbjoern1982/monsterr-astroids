@@ -38,7 +38,7 @@ export default {
       server.send('update', {
         ships: ships
       }).toAll()
-    }, 500) // 20 times a second
+    }, 50) // 20 times a second
   },
   teardown: (server) => {},
   options: {}

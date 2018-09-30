@@ -1,14 +1,16 @@
 let ships = []
 
 let init = (canvas, gamestate) => {
+  canvas.clear()
+  canvas.backgroundColor = 'black'
   let cx = canvas.width / 2
   let cy = canvas.height / 2
 
-  canvas.clear()
   ships = []
-  canvas.backgroundColor = 'black'
   gamestate.ships.forEach(ship => {
-    let newShip = new fabric.Triangle({
+    let shipShape = new fabric.Triangle({
+      originX: 'center',
+      originY: 'center',
       left: cx + ship.pos.x,
       top: cy + ship.pos.y,
       fill: 'black',
@@ -17,11 +19,9 @@ let init = (canvas, gamestate) => {
       stroke: 'white',
       selectable: false
     })
-    newShip.angle = fabric.util.radiansToDegrees(ship.heading) + 90
-    ships.push(newShip)
-    canvas.add(newShip)
-    newShip.originX = ship.width / 2
-    newShip.originY = ship.height / 2
+    shipShape.angle = fabric.util.radiansToDegrees(ship.heading) + 90
+    ships.push(shipShape)
+    canvas.add(shipShape)
   })
 }
 
@@ -33,7 +33,6 @@ let render = (canvas, gamestate) => {
     ships[i].top = cy + gamestate.ships[i].pos.y
     ships[i].angle = fabric.util.radiansToDegrees(gamestate.ships[i].heading) + 90
   }
-  console.log(JSON.stringify(ships))
   canvas.renderAll()
 }
 
