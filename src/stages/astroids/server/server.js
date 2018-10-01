@@ -108,7 +108,15 @@ export default {
         })
       })
       if (crashedList.astroids.length > 0) {
-        crashedList.astroids.forEach(astroid => gamestate.astroids.splice(gamestate.astroids.indexOf(astroid), 1))
+        crashedList.astroids.forEach(astroid => {
+          gamestate.astroids.splice(gamestate.astroids.indexOf(astroid), 1)
+          let size = Math.floor(astroid.points.length / 2)
+          if (size >= 3) {
+            let pos = {x: astroid.pos.x, y: astroid.pos.y}
+            gamestate.astroids.push(new model.Astroid(pos, size))
+            gamestate.astroids.push(new model.Astroid(pos, size))
+          }
+        })
       }
       if (crashedList.ships.length > 0) {
         crashedList.ships.forEach(ship => {

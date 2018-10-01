@@ -22,7 +22,7 @@ function Ship (owner) {
     // turn
     this.heading += this.turningSpeed
 
-    // add accelerate
+    // add acceleration
     this.velocety.x += Math.cos(this.heading) * this.accelerating
     this.velocety.y += Math.sin(this.heading) * this.accelerating
 
