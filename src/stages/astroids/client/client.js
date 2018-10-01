@@ -12,6 +12,15 @@ let events = {
   },
   'update': (client, gamestate) => {
     view.render(client.getCanvas(), gamestate)
+  },
+  'crashed': (client, ship) => {
+    client.getChat().append(ship.owner + ' crashed with ' + ship.points + ' points')
+  },
+  'gameover': (client, winners) => {
+    client.getChat().append('gameover')
+    if (winners) {
+      winners.forEach(ship => client.getChat().append(ship.owner + ' got ' + ship.points + ' points'))
+    }
   }
 }
 

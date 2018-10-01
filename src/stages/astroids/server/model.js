@@ -6,11 +6,18 @@ function Ship (owner) {
   this.turningSpeed = 0
   this.accelerating = 0
   this.drag = 0.99
+  this.points = 0
 
-  this.update = () => {
+  this.update = (universe) => {
     // move
     this.pos.x += this.velocety.x
     this.pos.y += this.velocety.y
+
+    // curved spacetime!
+    if (this.pos.x < -universe.width / 2 - 10) this.pos.x += universe.width + 10
+    if (this.pos.x > universe.width / 2 + 10) this.pos.x -= universe.width - 10
+    if (this.pos.y < -universe.height / 2 - 10) this.pos.y += universe.height + 10
+    if (this.pos.y > universe.height / 2 + 10) this.pos.y -= universe.height - 10
 
     // turn
     this.heading += this.turningSpeed
@@ -67,7 +74,38 @@ function Bullet (ship) {
   }
 }
 
+function Astroid (pos, size) {
+  this.pos = pos
+
+  this.points = [...Array(size).keys()].map(index => {
+    let angle = Math.PI * 2 * index / size
+    return {
+      x: Math.cos(angle) * size * 2 * (2 - Math.random()),
+      y: Math.sin(angle) * size * 2 * (2 - Math.random())
+    }
+  })
+
+  let heading = Math.random() * 4 * Math.PI
+  let speed = Math.random() * 2
+  this.velocety = {
+    x: Math.cos(heading) * speed,
+    y: Math.sin(heading) * speed
+  }
+  this.update = (universe) => {
+    // move
+    this.pos.x += this.velocety.x
+    this.pos.y += this.velocety.y
+
+    // curved spacetime!
+    if (this.pos.x < -universe.width / 2 - 10) this.pos.x += universe.width + 10
+    if (this.pos.x > universe.width / 2 + 10) this.pos.x -= universe.width - 10
+    if (this.pos.y < -universe.height / 2 - 10) this.pos.y += universe.height + 10
+    if (this.pos.y > universe.height / 2 + 10) this.pos.y -= universe.height - 10
+  }
+}
+
 export default {
   Ship,
-  Bullet
+  Bullet,
+  Astroid
 }
