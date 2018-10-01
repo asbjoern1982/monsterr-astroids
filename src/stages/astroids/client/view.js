@@ -26,14 +26,18 @@ let init = (canvas, gamestate) => {
 }
 
 let render = (canvas, gamestate) => {
-  let cx = canvas.width / 2
-  let cy = canvas.height / 2
-  for (let i = 0; i < ships.length; i++) {
-    ships[i].left = cx + gamestate.ships[i].pos.x
-    ships[i].top = cy + gamestate.ships[i].pos.y
-    ships[i].angle = fabric.util.radiansToDegrees(gamestate.ships[i].heading) + 90
+  if (gamestate.ships.length === ships.length) {
+    let cx = canvas.width / 2
+    let cy = canvas.height / 2
+    for (let i = 0; i < ships.length; i++) {
+      ships[i].left = cx + gamestate.ships[i].pos.x
+      ships[i].top = cy + gamestate.ships[i].pos.y
+      ships[i].angle = fabric.util.radiansToDegrees(gamestate.ships[i].heading) + 90
+    }
+    canvas.renderAll()
+  } else {
+    init(canvas, gamestate)
   }
-  canvas.renderAll()
 }
 
 export default {
