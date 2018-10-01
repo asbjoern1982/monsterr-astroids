@@ -6,44 +6,44 @@ let level = {
 let init = (canvas, gamestate) => {
   canvas.clear()
   canvas.backgroundColor = 'black'
-  let cx = canvas.width / 2
-  let cy = canvas.height / 2
 
-  level.ships = []
-  gamestate.ships.forEach(ship => {
-    let shipShape = new fabric.Triangle({
-      originX: 'center',
-      originY: 'center',
-      left: cx + ship.pos.x,
-      top: cy + ship.pos.y,
-      fill: 'black',
-      width: '25',
-      height: '35',
-      stroke: 'white',
-      selectable: false
-    })
-    shipShape.angle = fabric.util.radiansToDegrees(ship.heading) + 90
-    level.ships.push(shipShape)
-    canvas.add(shipShape)
+  level.bullets = gamestate.bullets.map(bullet => createBullet(canvas, bullet))
+  canvas.add(...level.bullets)
+
+  level.ships = gamestate.ships.map(ship => createShip(canvas, ship))
+  canvas.add(...level.ships)
+}
+
+let createShip = (canvas, ship) => {
+  let shipShape = new fabric.Triangle({
+    originX: 'center',
+    originY: 'center',
+    left: ship.pos.x + canvas.width / 2,
+    top: ship.pos.y + canvas.height / 2,
+    fill: 'black',
+    width: '25',
+    height: '35',
+    stroke: 'white',
+    selectable: false
   })
+  shipShape.angle = fabric.util.radiansToDegrees(ship.heading) + 90
+  return shipShape
+}
 
-  level.bullets = []
-  gamestate.bullets.forEach(bullet => {
-    let bulletShape = new fabric.Circle({
-      left: cx + bullet.pos.x,
-      top: cy + bullet.pos.y,
-      radius: 2,
-      fill: 'white',
-      selectable: false
-    })
-    level.bullets.push(bulletShape)
-    canvas.add(bulletShape)
+let createBullet = (canvas, bullet) => {
+  return new fabric.Circle({
+    left: bullet.pos.x + canvas.width / 2,
+    top: bullet.pos.y + canvas.height / 2,
+    radius: 2,
+    fill: 'white',
+    selectable: false
   })
 }
 
 let render = (canvas, gamestate) => {
   let cx = canvas.width / 2
   let cy = canvas.height / 2
+
   if (gamestate.ships.length === level.ships.length && gamestate.bullets.length === level.bullets.length) {
     for (let i = 0; i < level.ships.length; i++) {
       level.ships[i].left = cx + gamestate.ships[i].pos.x
